@@ -2,7 +2,7 @@ SET @db_name = DATABASE();
 
 SET FOREIGN_KEY_CHECKS = 0;
 
-SET @tables_to_truncate = 'background_images,game_stats,user_preferences,users';
+SET @tables_to_truncate = 'background_images,game_stats,users,trivia';
 
 DELIMITER $$
 

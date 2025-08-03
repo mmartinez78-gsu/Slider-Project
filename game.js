@@ -9,7 +9,7 @@ const size = document.getElementById("gameboard").dataset.size;
 const gameArray = Array.from({length: size}, () => new Array(size).fill(0));
 for(y = 0; y < size; y++){
     for(x = 0; x < size; x++){
-        gameArray[y][x] = (y * 4) + x + 1;
+        gameArray[y][x] = (y * size) + x + 1;
     }
 }
 gameArray[size - 1][size - 1] = 0
@@ -58,8 +58,41 @@ for(i = 0; i < (size ** 2) - 1; i++){
                 // ------------------------
                 // TODO: add win logic here
                 // ------------------------
-                alert(`You win!\nFinished with: ${moves} moves\nFinal time: ${time} seconds`);
 
+                // alert(`You win!\nFinished with: ${moves} moves\nFinal time: ${time} seconds`);
+
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = "home.php";
+                form.style.display = 'none';
+
+                const sizeField = document.createElement('input');
+                sizeField.type = 'hidden';
+                sizeField.name = 'size';
+                sizeField.value = String(size);
+                form.appendChild(sizeField);
+
+                const timeField = document.createElement('input');
+                timeField.type = 'hidden';
+                timeField.name = 'time';
+                timeField.value = String(time);
+                form.appendChild(timeField);
+
+                const movesField = document.createElement('input');
+                movesField.type = 'hidden';
+                movesField.name = 'moves';
+                movesField.value = String(moves);
+                form.appendChild(movesField);
+
+                const finishField = document.createElement('input');
+                finishField.type = 'hidden';
+                finishField.name = 'finish';
+                finishField.value = "1";
+                form.appendChild(finishField);
+
+                document.body.appendChild(form);
+
+                form.submit();
             });
         }
     });
@@ -265,6 +298,8 @@ function gameTimer(){
     let interval = setInterval(timer, 1000);
     function timer() {
         time++;
+        let timeDisplay = document.getElementById("timer");
+        timeDisplay.innerText = `${Math.floor(time / 60)}:${(time % 60).toString().padStart(2, '0')}`;
         if(wait){
             clearInterval(interval);
         }
